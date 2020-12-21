@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">RunningTracker</string>
+    <string name="run">RUN</string>
+    <string name="track"><u>TRACK</u> </string>
+    <string name="runLogo">Run Logo</string>
+    <string name="start">Start Timer</string>
+    <string name="stop">Stop</string>
+    <string name="today">Today\'s Achievements</string>
+    <string name="month">Total Distance (Month)</string>
+</resources>
