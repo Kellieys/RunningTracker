@@ -12,7 +12,7 @@
         android:layout_width="196dp"
         android:layout_height="40dp"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="60dp"
         android:gravity="center"
         android:shadowColor="#00ccff"
         android:shadowDx="1"
@@ -52,7 +52,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
         android:layout_marginStart="112dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="50dp"
         android:contentDescription="@string/runLogo"
         android:src="@drawable/logo"
         app:layout_constraintStart_toStartOf="@+id/run_textView"
@@ -64,7 +64,7 @@
         android:layout_height="31dp"
         android:layout_marginStart="80dp"
         android:layout_marginTop="25dp"
-        android:alpha="0.6"
+        android:alpha="0.9"
         android:background="@drawable/boxes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/track_textView">
@@ -86,11 +86,9 @@
         android:layout_marginStart="80dp"
         android:alpha="0.8"
         android:background="@drawable/boxes"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_linearLayout2"
-        android:orientation="horizontal">
-    </LinearLayout>
-
+        app:layout_constraintTop_toBottomOf="@+id/title_linearLayout2"></LinearLayout>
 
 
     <LinearLayout
@@ -99,7 +97,7 @@
         android:layout_height="31dp"
         android:layout_marginStart="80dp"
         android:layout_marginTop="20dp"
-        android:alpha="0.6"
+        android:alpha="0.9"
         android:background="@drawable/boxes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content_linearLayout2">
@@ -121,25 +119,52 @@
         android:layout_marginStart="80dp"
         android:alpha="0.8"
         android:background="@drawable/boxes"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_linearLayout"
-        android:orientation="horizontal">
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/title_linearLayout"></LinearLayout>
 
-
-    <Button
-        android:id="@+id/startTimerBtn"
-        android:layout_width="161dp"
-        android:layout_height="43dp"
+    <TextView
+        android:id="@+id/startTimer_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:text="@string/start"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content_linearLayout" />
 
+    <Button
+        android:id="@+id/startTimer_button"
+        android:onClick="timer_onClick"
+        android:layout_width="77dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/timer"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startTimer_text" />
+
+    <Button
+        android:id="@+id/runHistory_button"
+        android:layout_width="164dp"
+        android:layout_height="37dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/historybox"
+        android:gravity="center"
+        android:text="@string/history"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startTimer_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
