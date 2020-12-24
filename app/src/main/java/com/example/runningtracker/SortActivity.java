@@ -12,10 +12,7 @@ public class SortActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_start_logging);
-//        updateTimeTextView = findViewById(R.id.updateTimeTextView);
-//        updateDistanceTextView = findViewById(R.id.updateDistanceTextView);
-//        stopLoggingButton = findViewById(R.id.stopLoggingButton);
+
     }
 
 

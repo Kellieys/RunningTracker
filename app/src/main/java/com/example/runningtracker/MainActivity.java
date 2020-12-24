@@ -7,8 +7,6 @@ import android.widget.Button;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Timer;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -25,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public void timer_onClick(View view)
     {
         Intent intent = new Intent(this, TimerActivity.class);
-        Intent serviceIntent = new Intent(this, ServiceActivity.class);
+        Intent serviceIntent = new Intent(this, AppServiceActivity.class);
 
         // start activity and start service
         startActivity(intent);

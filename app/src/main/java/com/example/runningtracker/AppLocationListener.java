@@ -1,4 +1,4 @@
 package com.example.runningtracker;
 
-public class ServiceActivity {
+public class AppLocationListener {
 }

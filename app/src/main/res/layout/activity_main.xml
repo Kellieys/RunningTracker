@@ -153,6 +153,7 @@
 
     <Button
         android:id="@+id/runHistory_button"
+        android:onClick="runHistory_OnClick"
         android:layout_width="164dp"
         android:layout_height="37dp"
         android:layout_marginTop="10dp"
