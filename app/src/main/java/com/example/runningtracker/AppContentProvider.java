@@ -7,10 +7,6 @@ import android.content.ContentProvider;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-
 //The purpose of this class is to handle the queries
 
 public class AppContentProvider extends ContentProvider {
