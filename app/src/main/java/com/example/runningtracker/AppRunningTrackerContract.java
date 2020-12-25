@@ -1,8 +1,9 @@
 package com.example.runningtracker;
 
-//References on android database
+//REFERENCES on android database
 //https://developer.android.com/reference/android/database/sqlite/package-summary
 //https://stackoverflow.com/questions/16890774/android-sqlite-database-and-app-update
+// This class also inspire from CWK!_03 recipe contract
 
 import android.net.Uri;
 import android.content.UriMatcher;
@@ -22,7 +23,6 @@ public class AppRunningTrackerContract {
 
     //Replace in my content provider = AppContentProvider
     public static final String AUTHORITY = "com.example.runningtracker.AppContentProvider";
-    //public static final Uri AUTHORITY_URI = Uri.parse("content://" + AUTHORITY);
 
     //Put in constant defined for table information into uri to identify each correspond location
     public static final Uri RUN_INFO_URI =  Uri.parse("content://" + AUTHORITY + "/" + TABLE_RUN_INFORMATION);
