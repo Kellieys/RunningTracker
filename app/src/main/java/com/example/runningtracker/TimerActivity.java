@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class TimerActivity extends AppCompatActivity {
 
-    public TextView current_timer_textView;
-    public TextView current_distance_textView;
+    public static TextView current_timer_textView;
+    public static TextView current_distance_textView;
     private Button stop_button;
 
 

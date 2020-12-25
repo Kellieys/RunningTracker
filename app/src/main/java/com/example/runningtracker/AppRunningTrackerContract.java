@@ -35,6 +35,7 @@ public class AppRunningTrackerContract {
     public static final String INFO_ID = "id";
     public static final String INFO_DATE = "date";
     public static final String INFO_TIME = "time";
+    public static final String INFO_COMMENT = "comment";
     public static final String INFO_DISTANCE = "distance";
 
     public static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -50,11 +51,14 @@ public class AppRunningTrackerContract {
     public static abstract class RunInformationTable implements BaseColumns {
         public static final String TABLE_RUN_INFORMATION = "run_information";
         public static final String CREATE_RUN_INFORMATION_TABLE = "CREATE TABLE " +
-                TABLE_RUN_INFORMATION + "("
+                TABLE_RUN_INFORMATION
+                + "("
                 + INFO_ID + " INTEGER PRIMARY KEY, "
-                + INFO_DATE
-                + " TEXT, " + INFO_TIME + " TEXT, "
-                + INFO_DISTANCE + " REAL" + ")";
+                + INFO_DATE + " TEXT, "
+                + INFO_TIME + " TEXT, "
+                + INFO_COMMENT + " TEXT, "
+                + INFO_DISTANCE + " REAL"
+                + ")";
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_RUN_INFORMATION;
     }

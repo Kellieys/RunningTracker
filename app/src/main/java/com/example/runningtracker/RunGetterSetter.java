@@ -8,34 +8,36 @@ public class RunGetterSetter {
     // Initialization for all variables
     private String time;
     private String date;
+    private String comment;
     private float distance;
 
     // Empty constructor if there are no arguments for reflection
     public RunGetterSetter() {}
 
     // Constructor that contain arguments to take care of
-    public RunGetterSetter(String time, String date, float distance)
+    public RunGetterSetter(String time, String date, String comment, float distance)
     {
         this.time = time;
         this.date = date;
+        this.comment = comment;
         this.distance = distance;
     }
 
     // Getter and setters functions that helped to protect the data
-    public String get_date() {
+    public String getDate() {
         return date;
     }
-    public String get_time() {
-        return time;
+    public String getTime() { return time; }
+    public String getComment() {
+        return comment;
     }
-    public float get_distance() { return distance; }
+    public float getDistance() { return distance; }
 
-    public void set_time(String time) {
+    public void setTime(String time) {
         this.time = time;
     }
-    public void set_date(String date) {
-        this.date = date;
-    }
-    public void set_distance( float distance ) { this.distance = distance; }
+    public void setDate(String date) { this.date = date; }
+    public void setComment(String comment) { this.date = comment; }
+    public void setDistance( float distance ) { this.distance = distance; }
 
 } // end class
