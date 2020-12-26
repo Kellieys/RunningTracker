@@ -23,6 +23,13 @@
         <activity android:name=".TimerActivity" />
         <activity android:name=".SortActivity" />
 
+        <provider
+            android:name=".AppContentProvider"
+            android:authorities="com.example.runningtracker.AppContentProvider"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service android:name=".AppServiceActivity" />
 
     </application>
 

@@ -10,9 +10,9 @@
     <TextView
         android:id="@+id/run_textView"
         android:layout_width="196dp"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:gravity="center"
         android:shadowColor="#00ccff"
         android:shadowDx="1"
@@ -20,7 +20,7 @@
         android:shadowRadius="2"
         android:text="@string/run"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="27sp"
         android:textStyle="bold|italic"
         android:typeface="sans"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
         android:shadowRadius="2"
         android:text="@string/track"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="27sp"
         android:textStyle="bold|italic"
         android:typeface="sans"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,11 +48,11 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="165dp"
-        android:layout_height="97dp"
+        android:layout_height="88dp"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
         android:layout_marginStart="112dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="35dp"
         android:contentDescription="@string/runLogo"
         android:src="@drawable/logo"
         app:layout_constraintStart_toStartOf="@+id/run_textView"
@@ -128,7 +128,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="28dp"
         android:gravity="center_horizontal"
         android:text="@string/start"
         android:textColor="@color/white"
@@ -136,16 +136,15 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/runHistory_button" />
 
     <Button
         android:id="@+id/startTimer_button"
-        android:onClick="timer_onClick"
-        android:layout_width="77dp"
-        android:layout_height="72dp"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/timer"
-        android:backgroundTint="@color/white"
+        android:onClick="timer_onClick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -153,19 +152,20 @@
 
     <Button
         android:id="@+id/runHistory_button"
-        android:onClick="runHistory_OnClick"
-        android:layout_width="164dp"
+        android:layout_width="245dp"
         android:layout_height="37dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/historybox"
         android:gravity="center"
+        android:onClick="runHistory_OnClick"
         android:text="@string/history"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"
         android:textStyle="italic"
+        android:backgroundTint="@color/tintColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/startTimer_button" />
+        app:layout_constraintTop_toBottomOf="@+id/content_linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

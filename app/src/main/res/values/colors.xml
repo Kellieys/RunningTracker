@@ -3,12 +3,13 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#BB86FC</color>
-    <color name="lightBlue">#E5ECED</color>
-    <color name="mediumBlue">#51B2E8</color>
+    <color name="lightBlue">#50A7C2</color>
+    <color name="mediumBlue">#B7F8DB</color>
     <color name="white">#FFFFFF</color>
     <color name="grey">#6C6A6A</color>
     <color name="blue">#3b5998</color>
     <color name="darkgrey">#1D1D1E</color>
     <color name="titleColor">#f64f59</color>
-    <color name="tintColor">#22D339</color>
+    <color name="tintColor">#c3cfe2</color>
+    <color name="tintColour">#01AD02</color>
 </resources>
