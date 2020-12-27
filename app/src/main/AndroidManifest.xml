@@ -21,7 +21,7 @@
         </activity>
 
         <activity android:name=".TimerActivity" />
-        <activity android:name=".SortActivity" />
+        <activity android:name=".RunHistoryActivity" />
 
         <provider
             android:name=".AppContentProvider"
@@ -30,6 +30,8 @@
             android:exported="true" />
 
         <service android:name=".AppServiceActivity" />
+
+        <receiver android:name=".AppBroadcastReceiver" />
 
     </application>
 

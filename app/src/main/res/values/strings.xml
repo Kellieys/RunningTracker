@@ -10,4 +10,6 @@
     <string name="history"><u>Run History</u></string>
     <string name="time_text">Time</string>
     <string name="distance_text">Distance</string>
+    <string name="view_by">Which do you want to view by ?</string>
+    <string name="selectBtn">SELECT</string>
 </resources>
