@@ -1,6 +1,5 @@
 package com.example.runningtracker;
 
-import android.net.Uri;
 import java.util.ArrayList;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,15 +8,17 @@ import android.content.ContentResolver;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-//This class purpose as a create,read,update,delete function handler for database
-//In this project, it will be focus on create, read, and update
+// OFFICIAL DOCUMENTATION https://developer.android.com/reference/android/database/sqlite/SQLiteOpenHelper
+// This class manage database creation and version management;purpose as a create,read,update,delete function handler for database
+// In this project, it will be focus on create, read, and update
 
 public class AppDatabase extends SQLiteOpenHelper {
 
     private ContentResolver content_resolver;
 
     // constructor
-    public AppDatabase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public AppDatabase(Context context, String name, SQLiteDatabase.CursorFactory factory, int version)
+    {
         super(context, AppRunningTrackerContract.DATABASE_NAME, factory, AppRunningTrackerContract.DATABASE_VERSION);
         content_resolver = context.getContentResolver();
     }
@@ -41,7 +42,7 @@ public class AppDatabase extends SQLiteOpenHelper {
     // Add run Function for Timer activity
     public void add_run(RunGetterSetter runGetterSetter)
     {
-        // put record contents into contentValues
+        // Create contentValues that will be used to store run information
         ContentValues contentValues = new ContentValues();
         contentValues.put(AppRunningTrackerContract.INFO_DATE, runGetterSetter.getDate());
         contentValues.put(AppRunningTrackerContract.INFO_TIME, runGetterSetter.getTime());
@@ -52,22 +53,25 @@ public class AppDatabase extends SQLiteOpenHelper {
         content_resolver.insert(AppRunningTrackerContract.RUN_INFO_URI, contentValues);
     }
 
-    public ArrayList<RunGetterSetter> runningHistoryList(String sortOrder) {
+    // Handle the option selected by user
+    public ArrayList<RunGetterSetter> runningHistoryList(String sort_order)
+    {
         ArrayList<RunGetterSetter> arrayList = new ArrayList<>();
 
         // View by Date selected
-        if(sortOrder.equals("Date")) {
+        if(sort_order.equals("Date")) {
             Cursor cursor = content_resolver.query(AppRunningTrackerContract.RUN_INFO_URI, null, null, null, AppRunningTrackerContract.INFO_ID + " DESC");
 
-            // move cursor to first result
+            // Moves the cursor to the first result when the set is not empty
             if (cursor.moveToFirst()) {
-                // while cursor is not after result
+
+                // While loop until the cursor to all run info
                 while (!cursor.isAfterLast()) {
                     RunGetterSetter runGetterSetter = new RunGetterSetter();
                     runGetterSetter.setDate(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DATE)));
                     if (runGetterSetter.getDate() == null)
                     {
-                        // move cursor to next result
+                        // Moves the cursor to the next result
                         cursor.moveToNext();
                         continue;
                     }
@@ -81,20 +85,22 @@ public class AppDatabase extends SQLiteOpenHelper {
                 }
             }
         }
-        // sort by Time
-        else if (sortOrder.equals("Time"))
+
+        // View by Time selected
+        else if (sort_order.equals("Time"))
         {
             Cursor cursor = content_resolver.query(AppRunningTrackerContract.RUN_INFO_URI, null, null, null, null);
 
-            // move cursor to first result
+            // Moves the cursor to the first result when the set is not empty
             if (cursor.moveToFirst()) {
-                // while cursor is not after result
+
+                // While loop until the cursor to all run info
                 while (!cursor.isAfterLast()) {
                     RunGetterSetter runGetterSetter = new RunGetterSetter();
                     runGetterSetter.setDate(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DATE)));
                     if (runGetterSetter.getDate() == null)
                     {
-                        // move cursor to next result
+                        // Moves the cursor to the next result
                         cursor.moveToNext();
                         continue;
                     }
@@ -108,42 +114,44 @@ public class AppDatabase extends SQLiteOpenHelper {
                 }
             }
 
-            // bubble sort to sort the records with time taken in descending order
-            for (int j = 0; j < arrayList.size(); j++)
-            {
-                for (int i = 1; i < arrayList.size(); i++) {
-                    RunGetterSetter runGetterSetter1 = arrayList.get(i - 1);
-                    RunGetterSetter runGetterSetter2 = arrayList.get(i);
+            // BUBBLE SORT in JAVA: https://beginnersbook.com/2014/07/java-program-for-bubble-sort-in-ascending-descending-order/
+            // Descending order by time
+            for (int i = 0; i < arrayList.size(); i++) {
+                for (int j = 1; j < arrayList.size(); j++) {
+                    RunGetterSetter runGetterSetter1 = arrayList.get(j - 1);
+                    RunGetterSetter runGetterSetter2 = arrayList.get(j);
 
-                    String timeStringA[] = runGetterSetter1.getTime().split(":");
-                    String timeStringB[] = runGetterSetter2.getTime().split(":");
+                    String time1[] = runGetterSetter1.getTime().split(":");
+                    String time2[] = runGetterSetter2.getTime().split(":");
 
-                    int timeA = Integer.parseInt(timeStringA[2]) + (Integer.parseInt(timeStringA[1]) * 60) + (Integer.parseInt(timeStringA[0]) * 3600);
-                    int timeB = Integer.parseInt(timeStringB[2]) + (Integer.parseInt(timeStringB[1]) * 60) + (Integer.parseInt(timeStringB[0]) * 3600);
+                    // Convert to same unit for comparison purpose
+                    int new_time1 = Integer.parseInt(time1[2]) + (Integer.parseInt(time1[1]) * 60) + (Integer.parseInt(time1[0]) * 3600);
+                    int new_time2 = Integer.parseInt(time2[2]) + (Integer.parseInt(time2[1]) * 60) + (Integer.parseInt(time2[0]) * 3600);
 
-                    if (timeB < timeA)
+                    // If smaller, then swap place to back
+                    if (new_time2 < new_time1)
                     {
-                        arrayList.set(i - 1, runGetterSetter2);
-                        arrayList.set(i, runGetterSetter1);
+                        arrayList.set(j - 1, runGetterSetter2);
+                        arrayList.set(j, runGetterSetter1);
                     }
-                }
-            }
+                } }
         }
 
-        // sort by distance
-        else if (sortOrder.equals("Distance"))
+        // View by Distance selected
+        else if (sort_order.equals("Distance"))
         {
             Cursor cursor = content_resolver.query(AppRunningTrackerContract.RUN_INFO_URI, null, null, null, AppRunningTrackerContract.INFO_DISTANCE + " DESC");
 
-            // move cursor to first result
+            // Moves the cursor to the first result when the set is not empty
             if (cursor.moveToFirst()) {
-                // while cursor is not after result
+
+                // While loop until the cursor to all run info
                 while (!cursor.isAfterLast()) {
                     RunGetterSetter runGetterSetter = new RunGetterSetter();
                     runGetterSetter.setDate(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DATE)));
                     if (runGetterSetter.getDate() == null)
                     {
-                        // move cursor to next result
+                        // Moves the cursor to the next result
                         cursor.moveToNext();
                         continue;
                     }
@@ -152,7 +160,7 @@ public class AppDatabase extends SQLiteOpenHelper {
                     runGetterSetter.setDistance(cursor.getFloat(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DISTANCE)));
                     arrayList.add(runGetterSetter);
 
-                    // move cursor to next result
+                    // Cursor continue to next
                     cursor.moveToNext();
                 }
             }
@@ -161,21 +169,23 @@ public class AppDatabase extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    public ArrayList<RunGetterSetter> selectedRun(String[] projection, String selection, String[] selectionArgs, String sortOrder)
+    public ArrayList<RunGetterSetter> selectedRun(String[] projection, String selection, String[] selectionArgs, String sort_order)
     {
         ArrayList<RunGetterSetter> arrayList = new ArrayList<>();
 
-        Cursor cursor = content_resolver.query(AppRunningTrackerContract.RUN_INFO_URI, projection, selection, selectionArgs, sortOrder);
+        Cursor cursor = content_resolver.query(AppRunningTrackerContract.RUN_INFO_URI, projection, selection, selectionArgs, sort_order);
 
+        // Moves the cursor to the first result when the set is not empty
         if (cursor.moveToFirst())
         {
+            // While loop until the cursor to all run info
             while (!cursor.isAfterLast())
             {
                 RunGetterSetter runGetterSetter = new RunGetterSetter();
                 runGetterSetter.setDate(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DATE)));
                 if (runGetterSetter.getDate() == null)
                 {
-                    // move cursor to next result
+                    // Moves the cursor to the next result
                     cursor.moveToNext();
                     continue;
                 }
@@ -184,25 +194,27 @@ public class AppDatabase extends SQLiteOpenHelper {
                 runGetterSetter.setDistance(cursor.getFloat(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DISTANCE)));
                 arrayList.add(runGetterSetter);
 
-                // move cursor to next result
+                // Cursor continue to next
                 cursor.moveToNext();
             }
         }
 
-        // bubble sort to sort the records with time taken in ascending order
-        for (int j = 0; j < arrayList.size(); j++)
+        // BUBBLE SORT in JAVA: https://beginnersbook.com/2014/07/java-program-for-bubble-sort-in-ascending-descending-order/
+        // Ascending order by time
+        for (int i = 0; i < arrayList.size(); i++)
         {
-            for (int i = 1; i < arrayList.size(); i++) {
-                RunGetterSetter runGetterSetter1 = arrayList.get(i - 1);
-                RunGetterSetter runGetterSetter2 = arrayList.get(i);
+            for (int j = 1; j < arrayList.size(); j++) {
+                RunGetterSetter runGetterSetter1 = arrayList.get(j - 1);
+                RunGetterSetter runGetterSetter2 = arrayList.get(j);
 
-                String timeStringA[] = runGetterSetter1.getTime().split(":");
-                String timeStringB[] = runGetterSetter2.getTime().split(":");
+                String time1[] = runGetterSetter1.getTime().split(":");
+                String time2[] = runGetterSetter2.getTime().split(":");
 
-                int timeA = Integer.parseInt(timeStringA[2]) + (Integer.parseInt(timeStringA[1]) * 60) + (Integer.parseInt(timeStringA[0]) * 3600);
-                int timeB = Integer.parseInt(timeStringB[2]) + (Integer.parseInt(timeStringB[1]) * 60) + (Integer.parseInt(timeStringB[0]) * 3600);
+                int new_time1 = Integer.parseInt(time1[2]) + (Integer.parseInt(time1[1]) * 60) + (Integer.parseInt(time1[0]) * 3600);
+                int new_time2 = Integer.parseInt(time2[2]) + (Integer.parseInt(time2[1]) * 60) + (Integer.parseInt(time2[0]) * 3600);
 
-                if (timeB > timeA)
+                // If larger, then swap place to back
+                if (new_time2 > new_time1)
                 {
                     arrayList.set(i - 1, runGetterSetter2);
                     arrayList.set(i, runGetterSetter1);
@@ -212,7 +224,6 @@ public class AppDatabase extends SQLiteOpenHelper {
 
         return arrayList;
     }
-
 
     // Update function for comment when the user annotate a run
     public boolean updateComment(RunGetterSetter comment)
@@ -232,10 +243,8 @@ public class AppDatabase extends SQLiteOpenHelper {
         {
             result = true;
         }
-        // return update recipe result
+        // return update comment result
         return result;
     }
-
-
 
 } // end class

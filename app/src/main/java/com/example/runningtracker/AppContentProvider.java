@@ -7,14 +7,19 @@ import android.content.ContentProvider;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 
-//The purpose of this class is to handle the queries
+// The purpose of this class are centralize content in one place and have many different applications access it as needed
+// Also handle query, edit, add, delete and any CRUD methods
+// Store in SQlite database
 
 public class AppContentProvider extends ContentProvider {
 
+    // Initialisation
     private AppDatabase database_handler;
 
+    // Having an empty constructor to Avoid accidentally instantiating
     public AppContentProvider() {}
 
+    // Called to initialize the provider
     @Override
     public boolean onCreate()
     {
@@ -22,8 +27,9 @@ public class AppContentProvider extends ContentProvider {
         return false;
     }
 
+    // Returns data to the caller. Arguments are packed into a bundle.
     @Override
-    public Cursor query(Uri uri, String[] strings, String s, String[] strings1, String s1)
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selection_args, String sort_order)
     {
         // Build SQLite query
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
@@ -43,8 +49,8 @@ public class AppContentProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown URI");
         }
 
-        // Return cursor after executing commands
-        Cursor cursor = queryBuilder.query(database_handler.getReadableDatabase(), strings, s, strings1, null, null, s1);
+        // Cursor query from table and return result
+        Cursor cursor = queryBuilder.query(database_handler.getReadableDatabase(), projection, selection, selection_args, null, null, sort_order);
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
@@ -67,14 +73,15 @@ public class AppContentProvider extends ContentProvider {
         long id = 0;
 
         // Switch case to check for Uri
+        // If case match , insert into database run_information table database
         switch (uriType){
             case AppRunningTrackerContract.INFORMATION:
-                // insert into database
                 id = sqlDB.insert(AppRunningTrackerContract.RunInformationTable.TABLE_RUN_INFORMATION, null, contentValues);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
+
         getContext().getContentResolver().notifyChange(uri, null);
         return Uri.parse(AppRunningTrackerContract.TABLE_RUN_INFORMATION + "/" + id);
     }
@@ -85,8 +92,9 @@ public class AppContentProvider extends ContentProvider {
         throw new UnsupportedOperationException("Not Implemented");
     }
 
+    // Updates existing data in the content provider
     @Override
-    public int update(Uri uri,ContentValues contentValues, String selection, String[] selectionArgs)
+    public int update(Uri uri,ContentValues contentValues, String selection, String[] selection_args)
     {
         int uriType = AppRunningTrackerContract.sURIMatcher.match(uri);
         SQLiteDatabase sqlDB = database_handler.getWritableDatabase();
@@ -95,7 +103,7 @@ public class AppContentProvider extends ContentProvider {
         switch (uriType) {
             case AppRunningTrackerContract.INFORMATION:
                 rowsUpdated =
-                        sqlDB.update(AppRunningTrackerContract.RunInformationTable.TABLE_RUN_INFORMATION, contentValues, selection, selectionArgs);
+                        sqlDB.update(AppRunningTrackerContract.RunInformationTable.TABLE_RUN_INFORMATION, contentValues, selection, selection_args);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);

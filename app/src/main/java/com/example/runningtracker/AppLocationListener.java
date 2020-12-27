@@ -5,11 +5,11 @@ import java.text.DecimalFormat;
 import android.location.Location;
 import android.location.LocationListener;
 
-// REFERENCES (Location Listener)
+// OFFICIAL DOCUMENTATION AND REFERENCES (Location Listener)
 // https://developer.android.com/reference/android/location/LocationListener
 // https://stackoverflow.com/questions/42218419/how-do-i-implement-the-locationlistener
 // https://stackoverflow.com/questions/8600688/android-when-exactly-is-onlocationchanged-called
-// REFERENCES (Decimal Format)
+// OFFICIAL DOCUMENTATION (Decimal Format)
 // https://developer.android.com/reference/java/text/DecimalFormat
 
 public class AppLocationListener implements LocationListener {
@@ -31,10 +31,10 @@ public class AppLocationListener implements LocationListener {
         else
         { distance =  distance + location.distanceTo(currentLocation); }
 
-        // assign location as the latest location
+        // Assign location as the latest location
         currentLocation = location;
 
-        // reflect the changes to TimerActivity
+        // Reflect the changes to TimerActivity
         TimerActivity.current_distance_textView.setText(time_format.format(AppLocationListener.distance) + " m");
     }
 

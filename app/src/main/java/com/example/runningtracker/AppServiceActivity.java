@@ -25,28 +25,29 @@ import androidx.media.session.MediaButtonReceiver;
 import androidx.core.app.NotificationManagerCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
-
-// REFERENCE
-// https://www.javatpoint.com/android-service-tutorial#:~:text=Android%20service%20is%20a%20component,even%20if%20application%20is%20destroyed.&text=app.
-
-// This class will be the service implementation class by inheriting the Service class and overridding its callback methods
+// OFFICIAL DOCUMENTATION: https://developer.android.com/reference/java/util/Timer
+// https://developer.android.com/training/notify-user/build-notification
+// REFERENCES (Service): https://www.javatpoint.com/android-service-tutorial#:~:text=Android%20service%20is%20a%20component,even%20if%20application%20is%20destroyed.&text=app.
+// REFERENCES (Timer): https://stackoverflow.com/questions/4597690/how-to-set-timer-in-android
+// This class will be the service implementation class by inheriting the Service class and override its callback methods
 // Perform operations on the background for listening location, broadcast receiver and handle notification
 
 public class AppServiceActivity extends Service {
 
-    private static DecimalFormat time_format;
-    public static final String ACTION_STOP = "ACTION_STOP";
-    public static final String channelID = "channelID";
-    private LocationManager locationManager;
-    private AppLocationListener locationListener;
-    private RunGetterSetter runGetterSetter;
-    private Date startDateTime;
-    private AppBroadcastReceiver broadcastReceiver;
+    private static Timer timer;
+    private Date dateTime;
     private static Handler handler;
     private static int elapsedTime;
-    private static Timer timer;
+    private RunGetterSetter runGetterSetter;
+    private LocationManager locationManager;
+    private String channel_id = "channel_id";
+    private static DecimalFormat decimalFormat;
+    private AppLocationListener locationListener;
+    private AppBroadcastReceiver broadcastReceiver;
+    public static final String ACTION_STOP = "ACTION_STOP";
 
-
+    // Not implemented
+    // Allows other applications to bind to it and interact with it
     @Nullable
     @Override
     public IBinder onBind(Intent intent)
@@ -54,13 +55,12 @@ public class AppServiceActivity extends Service {
         return null;
     }
 
-    // initializing components
-    // create new broadcast recevier
-    // create notification channel for API > 28 only
+    // Called when it is created (by starting it or binding to it)
+    // Initialise object for DecimalFormat, AppBroadcastReceiver, IntentFilter
     @Override
     public void onCreate()
     {
-        time_format = new DecimalFormat("0.00");
+        decimalFormat = new DecimalFormat("0.00");
         broadcastReceiver = new AppBroadcastReceiver();
         IntentFilter filter = new IntentFilter();
         registerReceiver(broadcastReceiver, filter);
@@ -69,91 +69,111 @@ public class AppServiceActivity extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // get action
+
+        // Returns a pointer id and an event (i.e., up, down, move) information
         String action = intent.getAction();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
         SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("HH:mm");
 
-        // for intent that wants to stop the service
-        // will have an action called ACTION_STOP
-        // else prepare to start foreground
+        // ACTION_STOP is to handle the event to stop, in this case, stop timer
         if (action == ACTION_STOP)
         {
-            runGetterSetter.setDate(simpleTimeFormat.format(startDateTime) + "  " + simpleDateFormat.format(startDateTime));
+            runGetterSetter.setDate(simpleTimeFormat.format(dateTime) + "  " + simpleDateFormat.format(dateTime));
             runGetterSetter.setTime(TimerActivity.current_timer_textView.getText().toString());
-            runGetterSetter.setDistance(Float.parseFloat(time_format.format(AppLocationListener.distance)));
+            runGetterSetter.setDistance(Float.parseFloat(decimalFormat.format(AppLocationListener.distance)));
+
+            // Remove location update
             locationManager.removeUpdates(locationListener);
             locationManager = null;
             locationListener = null;
-            AppDatabase mydbhandler = new AppDatabase(this, null ,null, 1);
-            mydbhandler.add_run(runGetterSetter);
+
+            // Reflect changes to database
+            AppDatabase database_handler = new AppDatabase(this, null ,null, 1);
+            database_handler.add_run(runGetterSetter);
             stopForeground(Service.STOP_FOREGROUND_REMOVE);
         }
+
+        // Else start foreground
         else
         {
-            // new record object
+            // Initialise run object
             runGetterSetter = new RunGetterSetter();
-            // get current datetime
-            startDateTime = Calendar.getInstance().getTime();
-            // create notification
+
+            // Get current time of the android system
+            dateTime = Calendar.getInstance().getTime();
+
+            // Called function to create a notification
             createNotification();
-            // initial time = 0
+
+            // The initial time will be 0 and elapsed time display the time past
             elapsedTime = 0;
-            // timer to record the duration of each logging session
+
+            // Creates a new timer
             timer = new Timer();
             handler = new Handler() {
-                public void handleMessage(Message msg) {
+                public void handleMessage(Message message) {
                     int hour = (int) elapsedTime / 3600;
                     int minutes = (int) elapsedTime / 60;
                     int seconds = (int) elapsedTime % 60;
-                    // update textview
+
+                    // Reflect to Timer Activity
                     TimerActivity.current_timer_textView.setText(hour + ":" + minutes + ":" + seconds);
                 }
             };
-            // start time
+
+            // Start the timer by calling startTimer()
             startTimer();
 
+            // Error handling
             try
             {
-                // start location tracking
+                // Location tracking
                 locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
                 locationListener = new AppLocationListener();
-                // this is an android problem
-                // the gps will keep on update even though it has been terminated
-                // assigning this variable to null is required for the algorithm to run
-                // more details please check the comments in MyLocationListener
+                // After onLocationChange executed, always set current location to null before next execution
                 locationListener.currentLocation = null;
-                // request for location updates
+                // Request for location updates
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, locationListener);
             }
-            catch (SecurityException e)
+            catch (SecurityException error)
             {
-                Log.d("SecurityException", e.toString());
+                Log.d("SecurityException", error.toString());
             }
         }
 
         return START_STICKY;
     }
 
-    // create notification
+    // Function that handle the time by increasing in seconds
+    protected static void startTimer() {
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                elapsedTime += 1;
+                handler.obtainMessage(1).sendToTarget();
+            }
+        }, 0, 1000);
+    }
+
+    // Function to create a notification
     public void createNotification()
     {
-        // intent for tapping the notification
+        // Set special flags controlling how notificationIntent intent is handled
         Intent notificationIntent = new Intent(this, TimerActivity.class);
         notificationIntent.putExtra("source", "from notification");
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        // intent for stop button in notification
+        // Handle intent of notification's stop button
         Intent stopIntent = new Intent(this, AppBroadcastReceiver.class);
 
-        // create pending intent based on the intent above
+        // PendingIntent to give a token that to a foreign application e.g. NotificationManager
         PendingIntent notificationPendingIntent = PendingIntent.getActivity(this , 0 , notificationIntent, 0);
         PendingIntent stopPendingIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0);
 
-        // build notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this , channelID);
-        builder.setContentTitle("Running Tracker is logging. Tap to see more")
-                .setContentText("Tap the right hand side button to stop logging")
+        //  Set the notification's content and channel using a NotificationCompat.Builder object
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this , channel_id);
+        builder.setContentTitle("Running Tracker is tracking.")
+                .setContentText("Tap to see more.")
                 .setContentIntent(notificationPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
@@ -164,38 +184,26 @@ public class AppServiceActivity extends Service {
                         .setCancelButtonIntent(MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_STOP)))
                 .setDeleteIntent(MediaButtonReceiver.buildMediaButtonPendingIntent(this, PlaybackStateCompat.ACTION_STOP));
 
-        // notification manager
+        // Call methods to post and start foreground service
         NotificationManagerCompat manager = NotificationManagerCompat.from(this);
         manager.notify(1, builder.build());
-        // start foreground service
         startForeground(1, builder.build());
     }
 
     public void createNotificationChannel()
     {
-        // only applicable to API > 28
+        // Only runs on API > 28
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             CharSequence name = "Running Tracker";
             String description = "Running Tracker";
-            NotificationChannel channel = new NotificationChannel(channelID, name, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel(channel_id, name, NotificationManager.IMPORTANCE_DEFAULT);
             channel.setDescription(description);
-            // Register the channel with the system
+
+            // Return the handle to a system-level service by class
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
     }
-
-    // start timer
-    protected static void startTimer() {
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                elapsedTime += 1; //increase every second
-                handler.obtainMessage(1).sendToTarget();
-            }
-        }, 0, 1000);
-    }
-
 
 } // end class
