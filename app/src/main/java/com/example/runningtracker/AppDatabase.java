@@ -57,7 +57,6 @@ public class AppDatabase extends SQLiteOpenHelper {
     public ArrayList<RunGetterSetter> runningHistoryList(String sort_order)
     {
         ArrayList<RunGetterSetter> arrayList = new ArrayList<>();
-
         // View by Date selected
         if(sort_order.equals("Date")) {
             Cursor cursor = content_resolver.query(AppRunningTrackerContract.RUN_INFO_URI, null, null, null, AppRunningTrackerContract.INFO_ID + " DESC");
@@ -68,16 +67,12 @@ public class AppDatabase extends SQLiteOpenHelper {
                 // While loop until the cursor to all run info
                 while (!cursor.isAfterLast()) {
                     RunGetterSetter runGetterSetter = new RunGetterSetter();
-                    runGetterSetter.setDate(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DATE)));
-                    if (runGetterSetter.getDate() == null)
-                    {
-                        // Moves the cursor to the next result
-                        cursor.moveToNext();
-                        continue;
-                    }
+
                     runGetterSetter.setTime(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_TIME)));
                     runGetterSetter.setComment(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_COMMENT)));
                     runGetterSetter.setDistance(cursor.getFloat(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DISTANCE)));
+                    runGetterSetter.setDate(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DATE)));
+
                     arrayList.add(runGetterSetter);
 
                     // Cursor continue to next
@@ -97,16 +92,12 @@ public class AppDatabase extends SQLiteOpenHelper {
                 // While loop until the cursor to all run info
                 while (!cursor.isAfterLast()) {
                     RunGetterSetter runGetterSetter = new RunGetterSetter();
-                    runGetterSetter.setDate(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DATE)));
-                    if (runGetterSetter.getDate() == null)
-                    {
-                        // Moves the cursor to the next result
-                        cursor.moveToNext();
-                        continue;
-                    }
+
                     runGetterSetter.setTime(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_TIME)));
                     runGetterSetter.setComment(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_COMMENT)));
                     runGetterSetter.setDistance(cursor.getFloat(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DISTANCE)));
+                    runGetterSetter.setDate(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DATE)));
+
                     arrayList.add(runGetterSetter);
 
                     // Cursor continue to next
@@ -148,16 +139,12 @@ public class AppDatabase extends SQLiteOpenHelper {
                 // While loop until the cursor to all run info
                 while (!cursor.isAfterLast()) {
                     RunGetterSetter runGetterSetter = new RunGetterSetter();
-                    runGetterSetter.setDate(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DATE)));
-                    if (runGetterSetter.getDate() == null)
-                    {
-                        // Moves the cursor to the next result
-                        cursor.moveToNext();
-                        continue;
-                    }
+
                     runGetterSetter.setTime(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_TIME)));
                     runGetterSetter.setComment(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_COMMENT)));
                     runGetterSetter.setDistance(cursor.getFloat(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DISTANCE)));
+                    runGetterSetter.setDate(cursor.getString(cursor.getColumnIndex(AppRunningTrackerContract.INFO_DATE)));
+
                     arrayList.add(runGetterSetter);
 
                     // Cursor continue to next

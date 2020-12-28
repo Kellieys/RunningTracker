@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/run_textView"
         android:layout_width="196dp"
-        android:layout_height="35dp"
+        android:layout_height="29dp"
         android:layout_marginStart="68dp"
         android:layout_marginTop="40dp"
         android:gravity="center"
@@ -52,7 +52,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
         android:layout_marginStart="112dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="28dp"
         android:contentDescription="@string/runLogo"
         android:src="@drawable/logo"
         app:layout_constraintStart_toStartOf="@+id/run_textView"
@@ -82,13 +82,22 @@
     <LinearLayout
         android:id="@+id/content_linearLayout2"
         android:layout_width="248dp"
-        android:layout_height="66dp"
+        android:layout_height="55dp"
         android:layout_marginStart="80dp"
         android:alpha="0.8"
         android:background="@drawable/boxes"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_linearLayout2"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/title_linearLayout2">
+
+        <TextView
+            android:id="@+id/display_total_distance_month"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -110,25 +119,61 @@
             android:text="@string/today"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp" />
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/content_linearLayout"
         android:layout_width="248dp"
-        android:layout_height="66dp"
+        android:layout_height="55dp"
         android:layout_marginStart="80dp"
         android:alpha="0.8"
         android:background="@drawable/boxes"
         android:orientation="horizontal"
+        android:translationZ="1dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_linearLayout"></LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/title_linearLayout">
+
+        <TextView
+            android:id="@+id/display_total_distance_today"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/single_fastest_today"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/fastest_today"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_linearLayout" />
+
+    <TextView
+        android:id="@+id/display_fastest_today"
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_linearLayout" />
 
     <TextView
         android:id="@+id/startTimer_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
         android:text="@string/start"
         android:textColor="@color/white"
@@ -156,16 +201,16 @@
         android:layout_height="37dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/historybox"
+        android:backgroundTint="@color/tintColor"
         android:gravity="center"
         android:onClick="runHistory_OnClick"
         android:text="@string/history"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp"
         android:textStyle="italic"
-        android:backgroundTint="@color/tintColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/display_fastest_today" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

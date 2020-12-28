@@ -12,4 +12,9 @@
     <string name="distance_text">Distance</string>
     <string name="view_by">Which do you want to view by ?</string>
     <string name="selectBtn">SELECT</string>
+    <string name="date_text">Date</string>
+    <string name="completion_time_text">Completion Time</string>
+    <string name="comment_text">Comments</string>
+    <string name="update_comment_text">Update Comment</string>
+    <string name="fastest_today">Fastest Time Today:</string>
 </resources>

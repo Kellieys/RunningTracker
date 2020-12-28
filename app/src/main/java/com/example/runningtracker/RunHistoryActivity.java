@@ -63,7 +63,7 @@ public class RunHistoryActivity extends AppCompatActivity {
         for (int i = 0; i < allRun.size(); i++)
         {
             RunGetterSetter runGetterSetter = allRun.get(i);
-            runInfo.add("Distance:" + Float.toString(runGetterSetter.getDistance()) + " m"+ " Time Taken:" + runGetterSetter.getTime() + " DateTime:" +  runGetterSetter.getDate());
+            runInfo.add("Distance:" + Float.toString(runGetterSetter.getDistance()) + " m"+ " Time Taken:" + runGetterSetter.getTime() + "   DateTime:" +  runGetterSetter.getDate());
         }
 
         // ListView initialisation
@@ -74,10 +74,9 @@ public class RunHistoryActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedRun = allRunListView.getItemAtPosition(position).toString();
-                singleRun = selectedRun.split("    ");
-                selectedDate = singleRun[0].split(": ")[1];
-                selectedTime = singleRun[1].split(": ")[1];
-                selectedDistance = Float.parseFloat(singleRun[2].split(" ")[1]);
+                selectedDate = allRun.get(position).getDate();
+                selectedTime = allRun.get(position).getTime();
+                selectedDistance = allRun.get(position).getDistance();
                 requestSingleRunActivity();
             }
         });
@@ -85,14 +84,12 @@ public class RunHistoryActivity extends AppCompatActivity {
 
     public void requestSingleRunActivity()
     {
-        // put all the selected record data into the intent and start next activity
+        // Post selected record data into the intent and start next activity
         Intent intent = new Intent(this, SingleRunActivity.class);
-        intent.putExtra("date data", singleRun[0]);
         intent.putExtra("selected date", selectedDate);
         intent.putExtra("selected time", selectedTime);
         intent.putExtra("selected distance", selectedDistance);
         startActivity(intent);
     }
-
 
 } // end class

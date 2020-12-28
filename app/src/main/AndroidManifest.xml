@@ -22,6 +22,7 @@
 
         <activity android:name=".TimerActivity" />
         <activity android:name=".RunHistoryActivity" />
+        <activity android:name=".SingleRunActivity" />
 
         <provider
             android:name=".AppContentProvider"
