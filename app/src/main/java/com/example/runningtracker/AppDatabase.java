@@ -203,8 +203,8 @@ public class AppDatabase extends SQLiteOpenHelper {
                 // If larger, then swap place to back
                 if (new_time2 > new_time1)
                 {
-                    arrayList.set(i - 1, runGetterSetter2);
-                    arrayList.set(i, runGetterSetter1);
+                    arrayList.set(j - 1, runGetterSetter2);
+                    arrayList.set(j, runGetterSetter1);
                 }
             }
         }
