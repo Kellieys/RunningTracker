@@ -9,6 +9,9 @@ import android.widget.TextView;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
+// This activity is to handle after the user click item listed, it will allow them to view the run details
+// and update comment
+
 public class SingleRunActivity extends AppCompatActivity {
 
     private TextView displayDateTextView;
@@ -37,6 +40,7 @@ public class SingleRunActivity extends AppCompatActivity {
         displayCommentTextView.setText(intent.getStringExtra("selected comment"));
     }
 
+    // Update comment button on click
     public void update_comment_OnClick(View view)
     {
 
@@ -64,7 +68,6 @@ public class SingleRunActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT);
             toast.show();
         }
-
     }
 
 } // end class

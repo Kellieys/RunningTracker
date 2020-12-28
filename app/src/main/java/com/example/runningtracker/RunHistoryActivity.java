@@ -11,6 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
+// This class is the intent after the user clicked the run history button
+// which able to for them to check all running activities in various manner,
+// such as check by distance, date, time
+
 public class RunHistoryActivity extends AppCompatActivity {
 
     private Spinner dropdown;
