@@ -24,20 +24,15 @@ public class RunGetterSetter {
     }
 
     // Getter and setters functions that helped to protect the data
-    public String getDate() {
-        return date;
-    }
+    public String getDate() { return date; }
     public String getTime() { return time; }
     public String getComment() {
         return comment;
     }
     public float getDistance() { return distance; }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
+    public void setTime(String time) { this.time = time; }
     public void setDate(String date) { this.date = date; }
-    public void setComment(String comment) { this.date = comment; }
+    public void setComment(String comment) { this.comment = comment; }
     public void setDistance( float distance ) { this.distance = distance; }
 
 } // end class

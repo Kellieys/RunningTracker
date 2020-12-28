@@ -2,6 +2,7 @@ package com.example.runningtracker;
 
 import android.view.View;
 import android.os.Bundle;
+import android.widget.Toast;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
@@ -29,6 +30,9 @@ public class TimerActivity extends AppCompatActivity {
         Intent appService = new Intent(this, AppServiceActivity.class);
         appService.setAction(AppServiceActivity.ACTION_STOP);
         startService(appService);
+
+        // Once the timer stop, hint user
+        Toast.makeText(this, "Timer Stop", Toast.LENGTH_SHORT).show();
 
         // Return to the main activity, first intent of the app
         Intent mainActivity = new Intent(this, MainActivity.class);

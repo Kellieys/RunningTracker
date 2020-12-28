@@ -28,6 +28,7 @@ public class RunHistoryActivity extends AppCompatActivity {
     private String selectedDate;
     private String selectedTime;
     private float selectedDistance;
+    private String selectedComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class RunHistoryActivity extends AppCompatActivity {
                 selectedDate = allRun.get(position).getDate();
                 selectedTime = allRun.get(position).getTime();
                 selectedDistance = allRun.get(position).getDistance();
+                selectedComment = allRun.get(position).getComment();
                 requestSingleRunActivity();
             }
         });
@@ -89,6 +91,7 @@ public class RunHistoryActivity extends AppCompatActivity {
         intent.putExtra("selected date", selectedDate);
         intent.putExtra("selected time", selectedTime);
         intent.putExtra("selected distance", selectedDistance);
+        intent.putExtra("selected comment", selectedComment);
         startActivity(intent);
     }
 

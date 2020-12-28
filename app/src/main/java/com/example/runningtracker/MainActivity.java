@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import android.widget.Button;
 import android.content.Intent;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(this, TimerActivity.class);
         Intent serviceIntent = new Intent(this, AppServiceActivity.class);
+
+        // Once the timer start, hint user
+        Toast.makeText(this, "Timer Start", Toast.LENGTH_SHORT).show();
 
         // start activity and start service
         startActivity(intent);
